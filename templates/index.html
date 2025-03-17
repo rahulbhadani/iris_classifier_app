@@ -1,0 +1,97 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iris Classifier</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Iris Flower Classification</h1>
+            <p>A machine learning model deployment using PyTorch, ONNX, and Flask</p>
+        </header>
+
+        <div class="main-content">
+            <div class="input-section">
+                <h2>Enter Iris Features</h2>
+                <form id="prediction-form">
+                    <div class="form-group">
+                        <label for="sepal-length">Sepal Length (cm):</label>
+                        <input type="number" id="sepal-length" step="0.1" min="0" max="10" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sepal-width">Sepal Width (cm):</label>
+                        <input type="number" id="sepal-width" step="0.1" min="0" max="10" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="petal-length">Petal Length (cm):</label>
+                        <input type="number" id="petal-length" step="0.1" min="0" max="10" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="petal-width">Petal Width (cm):</label>
+                        <input type="number" id="petal-width" step="0.1" min="0" max="10" required>
+                    </div>
+                    <button type="submit" class="button-primary">Predict</button>
+                </form>
+            </div>
+
+            <div class="result-section">
+                <h2>Prediction Result</h2>
+                <div id="prediction-result">
+                    <p>Enter features and click "Predict" to see results.</p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="probability-chart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="examples-section">
+            <h2>Example Predictions</h2>
+            <div class="examples-container">
+                {% for example in examples %}
+                <div class="example-card" data-features="{{ example.features }}">
+                    <h3>{{ example.class_name }}</h3>
+                    <ul>
+                        <li>Sepal Length: {{ "%.1f"|format(example.features[0]) }} cm</li>
+                        <li>Sepal Width: {{ "%.1f"|format(example.features[1]) }} cm</li>
+                        <li>Petal Length: {{ "%.1f"|format(example.features[2]) }} cm</li>
+                        <li>Petal Width: {{ "%.1f"|format(example.features[3]) }} cm</li>
+                    </ul>
+                    <button class="use-example-btn">Use These Values</button>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="info-section">
+            <h2>About This Project</h2>
+            <p>This is a deployment of a PyTorch neural network model trained on the Iris dataset. The model was exported to ONNX format for efficient inference.</p>
+            <div class="iris-info">
+                <div class="iris-type">
+                    <h3>Setosa</h3>
+                    <div class="iris-image setosa"></div>
+                </div>
+                <div class="iris-type">
+                    <h3>Versicolor</h3>
+                    <div class="iris-image versicolor"></div>
+                </div>
+                <div class="iris-type">
+                    <h3>Virginica</h3>
+                    <div class="iris-image virginica"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Created for CPE 490/590 - Machine Learning Deployment</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
